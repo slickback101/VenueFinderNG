@@ -1,0 +1,26 @@
+{
+  "name": "venuefinderng",
+  "version": "1.0.0",
+  "description": "VenueFindeNG is an event management solution, that addresses key challenges in the event management industry. The application focuses on solving major problems like complex registration processes, communication gaps between venue owners and prospective customers, scheduling conflicts, and feedback collection.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slickback101/VenueFinderNG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/slickback101/VenueFinderNG/issues"
+  },
+  "homepage": "https://github.com/slickback101/VenueFinderNG#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
