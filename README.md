@@ -63,8 +63,9 @@ venuefinderNG-backend/
     ├── auth.test.js
     ├── events.test.js
     └── registrations.test.js
+    
 
-
+![alt text](image.png)
 
 # Perequisites
 •  Node.js 18+ and npm
