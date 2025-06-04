@@ -65,7 +65,8 @@ venuefinderNG-backend/
     └── registrations.test.js
     
 
-![alt text](image.png)
+![Screenshot 2025-06-04 070158](https://github.com/user-attachments/assets/7c4fd2b3-3626-4303-8906-af3d2cccf52d)
+
 
 # Perequisites
 •  Node.js 18+ and npm
