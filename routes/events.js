@@ -14,23 +14,23 @@ router.get('/:id', eventController.getEvent);
 router.use(authenticate);
 
 router.post(
-  '/',
-  authorize(['organizer', 'admin']),
-  upload.array('images', 5),
-  eventController.createEvent
+'/',
+authorize(['organizer', 'admin']),
+upload.array('images', 5),
+eventController.createEvent
 );
 
 router.put(
-  '/:id',
-  authorize(['organizer', 'admin']),
-  upload.array('images', 5),
-  eventController.updateEvent
+    '/:id',
+    authorize(['organizer', 'admin']),
+    upload.array('images', 5),
+    eventController.updateEvent
 );
 
 router.delete(
-  '/:id',
-  authorize(['organizer', 'admin']),
-  eventController.deleteEvent
+    '/:id',
+    authorize(['organizer', 'admin']),
+    eventController.deleteEvent
 );
 
 router.get('/:id/attendees', eventController.getEventAttendees);
