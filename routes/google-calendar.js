@@ -5,12 +5,12 @@ const router = express.Router();
 
 // Google OAuth routes
 router.get('/auth', passport.authenticate('google', {
-  scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
 }));
 
 router.get('/callback', passport.authenticate('google'), (req, res) => {
   // Handle successful authentication
-  res.redirect('/dashboard?calendar=connected');
+  // res.redirect('/dashboard?calendar=connected');
 });
 
 // Sync events to Google Calendar
