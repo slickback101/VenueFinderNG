@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
         allowNull: false
     },
     shortDescription: DataTypes.STRING,
-    category: {
+    categoryName: {
         type: DataTypes.ENUM(
         'conference', 'workshop', 'meetup', 'concert', 
         'sports', 'festival', 'exhibition', 'other'
