@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/slickback101/VenueFinderNG#readme",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "bcryptjs": "^3.0.2",
     "compression": "^1.8.0",
     "cors": "^2.8.5",

@@ -75,15 +75,13 @@ customLogger.info('Database connection established');
 // Import models
 const User = require('./User')(sequelize);
 const Event = require('./Event')(sequelize);
-const Ticket = require('./Ticket')(sequelize);
+const Category = require('./Category')(sequelize);
+const Venue = require('./Venue')(sequelize);
+const Notification = require('./Notification')(sequelize);
+const Review = require('./Review')(sequelize);
 
 
-// const Payment = require('./Payment')(sequelize);
-// const Category = require('./Category')(sequelize);
-// const Venue = require('./Venue')(sequelize);
-// const Notification = require('./Notification')(sequelize);
-// const Review = require('./Review')(sequelize);
-// const Wishlist = require('./Wishlist')(sequelize);
+
 
 // Set up associations
 require('./associations')(sequelize);
@@ -93,14 +91,20 @@ const db = {
     Sequelize,
     User,
     Event,
-    Ticket,
-    
-    // Payment,
-    // Category,
-    // Venue,
-    // Notification,
-    // Review,
-    // Wishlist,
+    Category,
+    Venue,
+    Notification,
+    Review,
+};
+
+// Define associations here
+User.hasMany(Review, { foreignKey: 'userId' });
+Review.belongsTo(User, { foreignKey: 'userId' });
+
+module.exports = {
+    sequelize,
+    User,
+    Review
 };
 
 module.exports = db;
