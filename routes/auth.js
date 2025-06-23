@@ -2,9 +2,28 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const authController = require('../controllers/authController');
 //const { authenticate } = require('../middleware/auth');
-const { authenticateToken, verifyRefreshToken } = require('../middleware/auth');
+const { authenticateToken: authenticate, verifyRefreshToken } = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+
+
+// DEBUG: Check what's available in authController
+// console.log('=== DEBUG authController ===');
+// console.log('authController:', authController);
+// console.log('authController.register type:', typeof authController.register);
+// console.log('authController.login type:', typeof authController.login);
+// console.log('authController.logout type:', typeof authController.logout);
+// console.log('authController.refreshToken type:', typeof authController.refreshToken);
+// console.log('authController.forgotPassword type:', typeof authController.forgotPassword);
+// console.log('authController.resetPassword type:', typeof authController.resetPassword);
+// console.log('authController.verifyEmail type:', typeof authController.verifyEmail);
+// console.log('authController.getMe type:', typeof authController.getMe);
+// console.log('=== END DEBUG ===');
+
+
+
+
 
 const router = express.Router();
 
@@ -30,5 +49,6 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password/:token', authController.resetPassword);
 router.post('/verify-email/:token', authController.verifyEmail);
 router.get('/me', authenticate, authController.getMe);
+//router.post('/refresh', verifyRefreshToken, authController.refreshToken);
 
 module.exports = router;

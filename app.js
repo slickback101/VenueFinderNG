@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -7,22 +8,67 @@ const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
+const userRoutes = require('./routes/users');
 
-const app = express();
 
-// Security middleware
-app.use(helmet());
-app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    credentials: true
+
+if (!process.env.SESSION_SECRET) {
+    console.error('SESSION_SECRET environment variable is required');
+    process.exit(1);
+}
+
+
+// Security middleware (should be first)
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:"],
+        },
+    },
 }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+// CORS configuration
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
+// Rate limiting with different limits for different endpoints
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: {
+        success: false,
+        message: 'Too many requests from this IP, please try again later.'
+    }
 });
-app.use('/api/', limiter);
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 auth attempts per windowMs
+    message: {
+        success: false,
+        message: 'Too many authentication attempts, please try again later.'
+    }
+});
+
+// Apply rate limiting
+app.use('/api/', generalLimiter);
+app.use('/api/v1/auth', authLimiter);
+
+
+
+
+
+// Middleware
+app.use(express.json());
+
 
 // General middleware
 app.use(compression());
@@ -46,16 +92,92 @@ app.use(session({
 
 
 
+// Test route to see if basic setup works
+// app.get('/test', (req, res) => {
+//     res.json({ success: true, message: 'Server is working' });
+// });
+
+// Add routes one by one to identify the problematic one
+// try {
+//     console.log('Loading auth routes...');
+//     app.use('/api/v1/auth', require('./routes/auth'));
+//     console.log('Auth routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading auth routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading user routes...');
+//     app.use('/api/v1/users', require('./routes/users'));
+//     console.log('User routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading user routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading event routes...');
+//     app.use('/api/v1/events', require('./routes/events'));
+//     console.log('Event routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading event routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading venue routes...');
+//     app.use('/api/v1/venues', require('./routes/venues'));
+//     console.log('Venue routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading venue routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading category routes...');
+//     app.use('/api/v1/categories', require('./routes/categories'));
+//     console.log('Category routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading category routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading notification routes...');
+//     app.use('/api/v1/notifications', require('./routes/notifications'));
+//     console.log('Notification routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading notification routes:', error.message);
+// }
+
+
+// try {
+//     console.log('Loading calendar routes...');
+//     app.use('/api/v1/calendar', require('./routes/calendar'));
+//     console.log('Calendar routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading calendar routes:', error.message);
+// }
+
+// try {
+//     console.log('Loading google-calendar routes...');
+//     app.use('/api/v1/google-calendar', require('./routes/google-calendar'));
+//     console.log('Google-calendar routes loaded successfully');
+// } catch (error) {
+//     console.error('Error loading google-calendar routes:', error.message);
+// }
+
+
+
+
+
+
 // Routes
 app.use('/api/v1/auth', require('./routes/auth'));
 app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/events', require('./routes/events'));
-app.use('/api/v1/tickets', require('./routes/tickets'));
+//app.use('/api/v1/tickets', require('./routes/tickets'));
 //app.use('/api/v1/payments', require('./routes/payments'));
 app.use('/api/v1/venues', require('./routes/venues'));
 app.use('/api/v1/categories', require('./routes/categories'));
 app.use('/api/v1/notifications', require('./routes/notifications'));
-app.use('/api/v1/analytics', require('./routes/analytics'));
+//app.use('/api/v1/analytics', require('./routes/analytics'));
 
 
 
@@ -74,7 +196,7 @@ app.use(require('./middleware/errorHandler'));
 app.use('*', (req, res) => {
     res.status(404).json({
     success: false,
-    message: 'Route not found'
+    message: 'Something went wrong'
 
 });
 });
