@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+
 // Middleware to verify JWT token
 const authenticateToken = async (req, res, next) => {
     try {
@@ -131,6 +132,7 @@ const verifyRefreshToken = async (req, res, next) => {
 
 module.exports = {
     authenticateToken,
+    authenticate: authenticateToken,
     optionalAuth,
     verifyRefreshToken
 };

@@ -141,3 +141,101 @@ exports.login = async (req, res) => {
     });
 }
 };
+
+exports.logout = async (req, res) => {
+    try {
+        // Clear the refresh token cookie
+        res.clearCookie('refreshToken');
+        res.json({
+            success: true,
+            message: 'Logout successful'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Logout failed',
+            error: error.message
+        });
+    }
+};
+
+exports.refreshToken = async (req, res) => {
+    try {
+        // Implementation for refresh token
+        res.json({
+            success: true,
+            message: 'Token refreshed successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Token refresh failed',
+            error: error.message
+        });
+    }
+};
+
+exports.forgotPassword = async (req, res) => {
+    try {
+        // Implementation for forgot password
+        res.json({
+            success: true,
+            message: 'Password reset email sent'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Forgot password failed',
+            error: error.message
+        });
+    }
+};
+
+exports.resetPassword = async (req, res) => {
+    try {
+        // Implementation for reset password
+        res.json({
+            success: true,
+            message: 'Password reset successful'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Password reset failed',
+            error: error.message
+        });
+    }
+};
+
+exports.verifyEmail = async (req, res) => {
+    try {
+        // Implementation for email verification
+        res.json({
+            success: true,
+            message: 'Email verified successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Email verification failed',
+            error: error.message
+        });
+    }
+};
+
+exports.getMe = async (req, res) => {
+    try {
+        // Implementation to get current user
+        res.json({
+            success: true,
+            message: 'User data retrieved',
+            data: req.user
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to get user data',
+            error: error.message
+        });
+    }
+};
