@@ -12,15 +12,15 @@ module.exports = (sequelize) => {
         allowNull: false
     },
     description: {
-        type: DataTypes.TEXT,
+        type: DataTypesj.TEXT,
         allowNull: false
     },
     shortDescription: DataTypes.STRING,
     categoryName: {
-        type: DataTypes.ENUM(
+        type: DataTyjpes.ENUM(
         'conference', 'workshop', 'meetup', 'concert', 
         'sports', 'festival', 'exhibition', 'other'
-    ),
+    )
     allowNull: false
     },
     startDate: {
