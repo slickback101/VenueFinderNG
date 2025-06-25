@@ -2,26 +2,26 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const path = require('path');
 
-// storage engine
+// storage
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+    destination: function (req, file, cb) {
     cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
+},
+    filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+    }
 });
 
 // File filter
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-  if (extname && mimetype) {
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (extname && mimetype) {
     return cb(null, true);
-  } else {
+    } else {
     cb('Error: Images Only!');
-  }
+    }
 };
 
 //const upload = multer({ storage: storage, fileFilter: fileFilter });

@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const { User } = require('../models');
 const { sendEmail } = require('../utils/email');
 const crypto = require('crypto');
+const { Op } = require('sequelize');
 
 const generateTokens = (userId) => {
     const accessToken = jwt.sign(
