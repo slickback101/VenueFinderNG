@@ -147,44 +147,80 @@ app.use(session({
 // }
 
 
-// try {
-//     console.log('Loading calendar routes...');
-//     app.use('/api/v1/calendar', require('./routes/calendar'));
-//     console.log('Calendar routes loaded successfully');
-// } catch (error) {
-//     console.error('Error loading calendar routes:', error.message);
-// }
-
-// try {
-//     console.log('Loading google-calendar routes...');
-//     app.use('/api/v1/google-calendar', require('./routes/google-calendar'));
-//     console.log('Google-calendar routes loaded successfully');
-// } catch (error) {
-//     console.error('Error loading google-calendar routes:', error.message);
-// }
-
-
-
-
-
-
 // Routes
-app.use('/api/v1/auth', require('./routes/auth'));
-app.use('/api/v1/users', require('./routes/users'));
-app.use('/api/v1/events', require('./routes/events'));
-//app.use('/api/v1/tickets', require('./routes/tickets'));
-//app.use('/api/v1/payments', require('./routes/payments'));
-app.use('/api/v1/venues', require('./routes/venues'));
-app.use('/api/v1/categories', require('./routes/categories'));
-app.use('/api/v1/notifications', require('./routes/notifications'));
-//app.use('/api/v1/analytics', require('./routes/analytics'));
+console.log('Registering routes...');
+try {
+    console.log('Registering auth routes...');
+    app.use('/api/v1/auth', require('./routes/auth'));
+    console.log('Auth routes registered');
+} catch (error) {
+    console.error('Error registering auth routes:', error);
+    throw error;
+}
 
+try {
+    console.log('Registering user routes...');
+    app.use('/api/v1/users', require('./routes/users'));
+    console.log('User routes registered');
+} catch (error) {
+    console.error('Error registering user routes:', error);
+    throw error;
+}
 
+try {
+    console.log('Registering event routes...');
+    app.use('/api/v1/events', require('./routes/events'));
+    console.log('Event routes registered');
+} catch (error) {
+    console.error('Error registering event routes:', error);
+    throw error;
+}
 
+try {
+    console.log('Registering venue routes...');
+    app.use('/api/v1/venues', require('./routes/venues'));
+    console.log('Venue routes registered');
+} catch (error) {
+    console.error('Error registering venue routes:', error);
+    throw error;
+}
+
+try {
+    console.log('Registering category routes...');
+    app.use('/api/v1/categories', require('./routes/categories'));
+    console.log('Category routes registered');
+} catch (error) {
+    console.error('Error registering category routes:', error);
+    throw error;
+}
+
+try {
+    console.log('Registering notification routes...');
+    app.use('/api/v1/notifications', require('./routes/notifications'));
+    console.log('Notification routes registered');
+} catch (error) {
+    console.error('Error registering notification routes:', error);
+    throw error;
+}
 
 // Google Calendar Integration Routes
-app.use('/api/v1/calendar', require('./routes/calendar'));
-app.use('/api/v1/google-calendar', require('./routes/google-calendar'));
+try {
+    console.log('Registering calendar routes...');
+    app.use('/api/v1/calendar', require('./routes/calendar'));
+    console.log('Calendar routes registered');
+} catch (error) {
+    console.error('Error registering calendar routes:', error);
+    throw error;
+}
+
+try {
+    console.log('Registering Google Calendar routes...');
+    app.use('/api/v1/google-calendar', require('./routes/google-calendar'));
+    console.log('Google Calendar routes registered');
+} catch (error) {
+    console.error('Error registering Google Calendar routes:', error);
+    throw error;
+}
 
 
 
@@ -192,13 +228,13 @@ app.use('/api/v1/google-calendar', require('./routes/google-calendar'));
 // Error handling middleware
 app.use(require('./middleware/errorHandler'));
 
-// 404 handler
-app.use('*', (req, res) => {
+// 404 handler - must be the last route
+app.use((req, res) => {
     res.status(404).json({
-    success: false,
-    message: 'Something went wrong'
-
-});
+        success: false,
+        message: 'Route not found',
+        path: req.originalUrl
+    });
 });
 
 module.exports = app;

@@ -1,10 +1,11 @@
 require('dotenv').config();
+const { Sequelize } = require('sequelize');
 
 const dbConfig = {
-    database: process.env.DB_NAME || 'venuefinder_db',
-    username: process.env.DB_USER || 'venuefinder_user',
-    password: process.env.DB_PASSWORD || 'dev_password_123',
-    host: process.env.DB_HOST || 'localhost',
+    database: process.env.DB_NAME || 'venuefinderng_db',
+    username: process.env.DB_USER || 'venuefinderng_db_user',
+    password: process.env.DB_PASSWORD || 'RdSMu9rYy7agxiflwmgiYbO4BD0XQSaG',
+    host: process.env.DB_HOST || 'dpg-d1ctciadbo4c73bttbeg-a',
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     logging: true,
